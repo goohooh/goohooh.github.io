@@ -1,5 +1,5 @@
 ---
-title: 가치없는 프론트엔드 테스트
+title: 미니멀리즘 프론트엔드 테스트
 date: 2021-12-30 15:02:00
 category: 'Testing'
 draft: false
