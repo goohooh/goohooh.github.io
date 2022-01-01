@@ -35,7 +35,12 @@ export const Bio = () => (
                     </a>
                   )}
                   {social.github && (
-                    <a href={`https://github.com/${social.github}`}>GitHub</a>
+                    <a
+                      href={`https://github.com/${social.github}`}
+                      target="_blank"
+                    >
+                      GitHub
+                    </a>
                   )}
                   {social.medium && (
                     <a href={`https://medium.com/${social.medium}`}>Medium</a>
@@ -51,8 +56,19 @@ export const Bio = () => (
                     </a>
                   )}
                   {social.linkedin && (
-                    <a href={`https://www.linkedin.com/in/${social.linkedin}/`}>
+                    <a
+                      href={`https://www.linkedin.com/in/${social.linkedin}/`}
+                      target="_blank"
+                    >
                       LinkedIn
+                    </a>
+                  )}
+                  {social.youtube && (
+                    <a
+                      href={`https://www.youtube.com/channel/${social.youtube}/`}
+                      target="_blank"
+                    >
+                      Youtube
                     </a>
                   )}
                 </p>
@@ -85,6 +101,7 @@ const bioQuery = graphql`
           facebook
           linkedin
           instagram
+          youtube
         }
       }
     }

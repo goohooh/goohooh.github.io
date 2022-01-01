@@ -1,5 +1,5 @@
 module.exports = {
-  title: `개발 블로그`,
+  title: `goohooh.github.io`,
   description: `개발일지`,
   author: `Phil`,
   introduction: `프론트엔드 개발자`,
@@ -9,10 +9,11 @@ module.exports = {
     github: `goohooh`, // Your GitHub account
     medium: ``, // Your Medium account
     facebook: ``, // Your Facebook account
-    linkedin: ``, // Your LinkedIn account
+    linkedin: `성필-이-60b275119`, // Your LinkedIn account
     instagram: ``, // Your Instagram account
+    youtube: `UCHINUsMM5UchJHPf4ybWWsQ`,
   },
-  icon: `content/assets/felog.png`, // Add your favicon
+  icon: `content/assets/foot_print.png`, // Add your favicon
   keywords: [`blog`],
   comment: {
     disqusShortName: '', // Your disqus-short-name. check disqus.com.
