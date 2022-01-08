@@ -2,7 +2,7 @@ module.exports = {
   title: `goohooh.github.io`,
   description: `개발일지`,
   author: `Phil`,
-  introduction: `프론트엔드 개발자`,
+  introduction: `FE 개발자`,
   siteUrl: `https://goohooh.github.io/`, // Your blog site url
   social: {
     twitter: ``, // Your Twitter account
