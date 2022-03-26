@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[goohooh.github.io]]></title><description><![CDATA[개발일지]]></description><link>https://goohooh.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Sat, 26 Mar 2022 03:43:01 GMT</lastBuildDate><item><title><![CDATA[MSW를 활용한 Clean UI Test Code]]></title><description><![CDATA[UI 통합테스트를 작성하다보면 몇가지 문제점을 마주칩니다. (Jest, React, Typescript…]]></description><link>https://goohooh.github.io/Testing/clean_ui_test_code/</link><guid isPermaLink="false">https://goohooh.github.io/Testing/clean_ui_test_code/</guid><pubDate>Sat, 26 Mar 2022 12:30:00 GMT</pubDate><content:encoded>&lt;p&gt;UI 통합테스트를 작성하다보면 몇가지 문제점을 마주칩니다. (Jest, React, Typescript 환경 예시)&lt;/p&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[goohooh.github.io]]></title><description><![CDATA[개발일지]]></description><link>https://goohooh.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Sat, 26 Mar 2022 03:44:41 GMT</lastBuildDate><item><title><![CDATA[MSW를 활용한 Clean UI Test Code]]></title><description><![CDATA[UI 통합테스트를 작성하다보면 몇가지 문제점을 마주칩니다. (Jest, React, Typescript…]]></description><link>https://goohooh.github.io/Testing/clean_ui_test_code/</link><guid isPermaLink="false">https://goohooh.github.io/Testing/clean_ui_test_code/</guid><pubDate>Sat, 26 Mar 2022 12:30:00 GMT</pubDate><content:encoded>&lt;p&gt;UI 통합테스트를 작성하다보면 몇가지 문제점을 마주칩니다. (Jest, React, Typescript 환경 예시)&lt;/p&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;tsx&quot;&gt;&lt;pre class=&quot;language-tsx&quot;&gt;&lt;code class=&quot;language-tsx&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; mocked &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;ts-jest/utils&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
 &lt;span class=&quot;token keyword&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; getPostsHook &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;./hooks&apos;&lt;/span&gt;
 
@@ -21,11 +21,13 @@ jest&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class
 &lt;ul&gt;
 &lt;li&gt;테스트 케이스가 늘어날 경우&lt;/li&gt;
 &lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;getPostsHook&lt;/code&gt;을 여러곳에서 사용할 경우&lt;/li&gt;
-&lt;li&gt;모킹할 함수가 늘어나거나, 모킹할 데이터 구조가 복잡해질 경우
-다음과 같은 문제가 발생합니다.&lt;/li&gt;
+&lt;li&gt;모킹할 함수가 늘어나거나, 모킹할 데이터 구조가 복잡해질 경우&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;다음과 같은 문제가 발생합니다.&lt;/p&gt;
+&lt;ol&gt;
 &lt;li&gt;모킹 코드때문에 테스트 코드 자체의 가독성이 떨어진다. &lt;em&gt;단 몇 줄의 테스트코드를 위해 몇십 줄이 넘는 Mocking코드가 하나의 파일&lt;/em&gt;에 필요하다.&lt;/li&gt;
 &lt;li&gt;데이터 스키마가 바뀔 경우 관리하기 어렵다&lt;/li&gt;
-&lt;/ul&gt;
+&lt;/ol&gt;
 &lt;blockquote&gt;
 &lt;p&gt;Jest에서 제공하는 Manual Mock을 사용하면 해결되지 않나?
 맞습니다. 위 문제들을 &lt;em&gt;완화&lt;/em&gt;시킬 수 있습니다.&lt;/p&gt;
