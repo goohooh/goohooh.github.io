@@ -14,7 +14,7 @@ import { getPostsHook } from './hooks'
 jest.mock('./hooks');
 const mockedGetPostsHook = mocked(getPostsHook);
 
-it('유저는 자신이 작성한 Post의 리스트를 볼 수 있다', async () => {
+it('유저는 자신이 작성한 Post의 리스트를 볼 수 있다', () => {
   mockedGetPostsHook.mockReturnValueOnce(Promise.revolve([
     { title: 'a', ... },
     { title: 'b', ... },
@@ -33,13 +33,15 @@ it('유저는 자신이 작성한 Post의 리스트를 볼 수 있다', async ()
 - 테스트 케이스가 늘어날 경우
 - `getPostsHook`을 여러곳에서 사용할 경우
 - 모킹할 함수가 늘어나거나, 모킹할 데이터 구조가 복잡해질 경우
-  다음과 같은 문제가 발생합니다.
+
+다음과 같은 문제가 발생합니다.
 
 1. 모킹 코드때문에 테스트 코드 자체의 가독성이 떨어진다. *단 몇 줄의 테스트코드를 위해 몇십 줄이 넘는 Mocking코드가 하나의 파일*에 필요하다.
 2. 데이터 스키마가 바뀔 경우 관리하기 어렵다
 
 > Jest에서 제공하는 Manual Mock을 사용하면 해결되지 않나?
-> 맞습니다. 위 문제들을 *완화*시킬 수 있습니다.
+
+맞습니다. 위 문제들을 *완화*시킬 수 있습니다.
 
 ```ts
 // __mocks__/hooks.js
@@ -55,7 +57,7 @@ export const getPostsHook = () => {
 ```tsx
 jest.mock('./hooks')
 
-it('test case 1', async () => {
+it('유저는 자신이 작성한 Post의 리스트를 볼 수 있다', () => {
   render(Component)
 
   const items = await screen.findByRole('listitem')
@@ -78,7 +80,7 @@ A라는 유저는 2개의 Post를 작성했다고 가정해보겠습니다. 반�
 
 ## MSW와 MSWJS/data
 
-[MSW](https://mswjs.io/)자체는 최근들어 주목받는 라이브러리입니다.
+[MSW](https://mswjs.io/)는 최근들어 주목받는 라이브러리입니다.
 
 > Mock by intercepting requests on the network level. Seamlessly reuse the same mock definition for testing, development, and debugging.
 
@@ -182,13 +184,15 @@ export const schema = {
 }
 
 // seed
-const posts = [
-  db.post.create({ id: '1', title: 'Hello' })
-  db.post.create({ id: '2', title: 'Bye' })
-]
+export const runMigration = () => {
+  const posts = [
+    db.post.create({ id: '1', title: 'Hello' })
+    db.post.create({ id: '2', title: 'Bye' })
+  ]
 
-db.user.create({ id: '1', name: 'has-posts', posts })
-db.user.create({ id: '2', name: 'no-posts', posts: [] })
+  db.user.create({ id: '1', name: 'has-posts', posts })
+  db.user.create({ id: '2', name: 'no-posts', posts: [] })
+}
 
 // session
 // 프로젝트 별로 세션관리는 상이하며, 이에따라 구현은 달라질 수 있습니다
@@ -253,7 +257,6 @@ test('Post를 작성하지 않은 유저는 `글쓰기` 버튼을 노출한다.'
 
   expect(button).toBeInDocument();
 })
-
 ```
 
 ## 다 좋은데, 구조가 너무 복잡해지는 아닌가요?
@@ -263,9 +266,13 @@ MSW를 통해
 - 테스트 코드 가독성
 - 모킹데이터 관리 용이성
 
-을 얻어냈지만, 비용 또한 만만치 않습니다. 이미 보셨듯 꽤나 공수가 들어가는 작업입니다. 그렇기에 모든 테스트를 이와같이 작성하고, 이를 유지보수하기란 쉽지 않습니다.
+을 얻어냈지만, 비용 또한 만만치 않습니다. 이미 보셨듯 꽤나 공수가 들어가는 작업입니다. 서버로직이 바뀐다면? 이에따라 관리해야할 코드가 늘어나기도 합니다. 그렇기에 모든 테스트를 MSW로 작성하고 이를 유지보수하기란 쉽지 않습니다.
 
-따라서 trade-off를 고려하여, 다음과 같은 경우 MSW를 통한 UI 통합 테스트를 작성하면 좋겠습니다.
+## 결론
 
-- 복잡한 Mocking 데이터가 많이 필요한 테스
-- 실패하면 안되는 Critical한 UI 테스트트
+- 복잡한 Mocking 데이터가 많이 필요한 테스트
+- 실패하면 안되는 Critical한 UI 테스트
+
+앞선 Trade-Off를 고려하여, 위와 같은 경우 MSW를 활용하여 UI 통합 테스트를 작성하시길 추천드립니다.
+
+후... 생각보다 긴 여정이었네요. 그럼에도 안정적인 서비스를 제공하기 위해 테스트는 필수입니다. MSW로 여러분들의 프로덕트가 더 견고해지는데 도움이 됐으면 좋겠습니다.(그리고 야근도 줄어들길 기원합니다 :pray:)
