@@ -1,4 +1,53 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[goohooh.github.io]]></title><description><![CDATA[개발일지]]></description><link>https://goohooh.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Sat, 26 Mar 2022 14:26:58 GMT</lastBuildDate><item><title><![CDATA[MSW를 활용한 Clean UI Integration Test]]></title><description><![CDATA[UI 통합 테스트를 작성하다보면 몇가지 문제를 마주합니다. (Jest, React, Typescript…]]></description><link>https://goohooh.github.io/Testing/clean_ui_test_code/</link><guid isPermaLink="false">https://goohooh.github.io/Testing/clean_ui_test_code/</guid><pubDate>Sat, 26 Mar 2022 12:30:00 GMT</pubDate><content:encoded>&lt;p&gt;UI 통합 테스트를 작성하다보면 몇가지 문제를 마주합니다.&lt;/p&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[goohooh.github.io]]></title><description><![CDATA[개발일지]]></description><link>https://goohooh.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Sat, 28 May 2022 22:14:41 GMT</lastBuildDate><item><title><![CDATA[이직 회고]]></title><description><![CDATA[1년 1개월 이라는 시간을 끝으로 KCD를 떠납니다. 다음 방향을 결정하고 달려온 지난 몇 달을 돌아봅니다. 새로운 목표: MIT…]]></description><link>https://goohooh.github.io/retrospective/startup/</link><guid isPermaLink="false">https://goohooh.github.io/retrospective/startup/</guid><pubDate>Sun, 29 May 2022 07:00:00 GMT</pubDate><content:encoded>&lt;p&gt;1년 1개월 이라는 시간을 끝으로 KCD를 떠납니다. 다음 방향을 결정하고 달려온 지난 몇 달을 돌아봅니다.&lt;/p&gt;
+&lt;h2 id=&quot;새로운-목표-mit-공대-한복가게&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%83%88%EB%A1%9C%EC%9A%B4-%EB%AA%A9%ED%91%9C-mit-%EA%B3%B5%EB%8C%80-%ED%95%9C%EB%B3%B5%EA%B0%80%EA%B2%8C&quot; aria-label=&quot;새로운 목표 mit 공대 한복가게 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;새로운 목표: MIT 공대, 한복가게&lt;/h2&gt;
+&lt;p&gt;직장인들의 사춘기가 찾아오면 무릇 나 자신을 돌아보곤 합니다. 현재 나에게 중요한 것은 무엇인가. 나는 무엇을 원하는가.
+고민을 거듭한 결과, 공부와 경제적 자유가 지금의 저에게 가장 큰 가치를 지녔음을 깨달았습니다.&lt;/p&gt;
+&lt;p&gt;고등학교 2학년 여름, 대학을 가지 않기로 결정하며 마음먹은 다짐이 하나 있습니다.&lt;/p&gt;
+&lt;p&gt;“배우고 싶은게 생기면 그 때 대학을 가자”&lt;/p&gt;
+&lt;p&gt;그렇게 시간이 흘러 서른을 넘은 현재, 평소 일론 머스크, 빌 게이츠를 보며 그들이 일하는 목적에 크게 감명 받고 있습니다.
+&lt;strong&gt;엔지니어로서 지구와 인류를 위해 도움이 되는 일은 무엇일까&lt;/strong&gt; 고민하다 보니 이제서야 진지하게 공부가 필요하지 않을까 싶었습니다.&lt;/p&gt;
+&lt;p&gt;사실 무엇을 공부해야 할지 아직은 잘 모르겠습니다. 수학, 물리, 천문학 등등 다양한 분야가 있을 수 있겠습니다만, 이왕 공부한다면 지구에서 똑똑한 사람들이 모여있는 곳이 더욱 좋겠다는 생각에 &lt;strong&gt;‘MIT 공대에 가고 싶다!’&lt;/strong&gt; 라는 꿈이 생겼습니다.&lt;/p&gt;
+&lt;p&gt;그리고 그렇게 공부를 하러 가기 전에 이뤄놓고 싶은 또 한가지는 바로, 어머님의 한복가게를 다시 차려드리는 것입니다. 코로나 직전 가게를 닫으시고 힘들어하시는 어머님 모습에 마음이 많이 아팠습니다. 작년 제주도 여행에서 아직 꿈을 놓지 않으신 어머님의 속마음을 듣고 나서 아직 정정하실때 꼭 꿈을 이뤄드리고 싶었습니다.&lt;/p&gt;
+&lt;p&gt;네…ㅎㅎ 두 목표 모두 그냥 돈이 필요한게 아니라 &lt;strong&gt;많은 돈이&lt;/strong&gt; 필요하네요. 🏦&lt;/p&gt;
+&lt;h2 id=&quot;기회-도전&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EA%B8%B0%ED%9A%8C-%EB%8F%84%EC%A0%84&quot; aria-label=&quot;기회 도전 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;기회, 도전&lt;/h2&gt;
+&lt;p&gt;그렇다고 창업을 하기엔 아직 제 깜냥이 안된다는 것을 잘 알고 있습니다. 그래서 지금보다는 더 큰 기회를 얻을 수 있는 작은 스타트업을 찾기 시작했습니다. Seed 혹은 시리즈 A정도는 돼야 의미있는 보상을 기대할 수 있겠다 싶었습니다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;초기 스타트업&lt;/li&gt;
+&lt;li&gt;기술적 챌린지가 있으면 좋겠다&lt;/li&gt;
+&lt;li&gt;이왕이면 AI 쪽&lt;/li&gt;
+&lt;li&gt;하지만 당장의 현금흐름이 끊기고 싶진 않다. 돈 벌고 있는 곳&lt;/li&gt;
+&lt;li&gt;그러면서 미래 가치가 큰 곳. 글로벌 마켓이면 더 좋겠다.&lt;/li&gt;
+&lt;li&gt;⭐ 대표나 경영진이 제품관리 경험 및 철학이 있는 곳 ⭐&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;다시 봐도 정말 유니콘을 찾고 있었다고 생각합니다.(거의 욕망의 항아리…) 아무튼 최대한 위 조건을 생각하며 이곳저곳 커피챗과 오피스투어를 할 무렵 &lt;a href=&quot;https://steady-study.super.site/&quot;&gt;Ted&lt;/a&gt;와 연락하며 자연스레 이직 이야기가 나왔고, 이직 의사가 있음을 밝히자 진지하게 이야기 나누자고 제안을 주셨습니다.&lt;/p&gt;
+&lt;p&gt;처음엔 그리 구미가 당기지 않았으나 이야기를 듣고 보니, 연락을 주고받던 그 어느회사보다 위 조건에 가장 부합하는 회사였습니다. 이후로 인터뷰 프로세스를 진행했고, 정말 다행스럽게 통과하여 &lt;a href=&quot;https://www.xl8.ai/&quot;&gt;XL8&lt;/a&gt;에 합류하게 됐습니다.&lt;/p&gt;
+&lt;h2 id=&quot;it-제품-스타트업의-대표란&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#it-%EC%A0%9C%ED%92%88-%EC%8A%A4%ED%83%80%ED%8A%B8%EC%97%85%EC%9D%98-%EB%8C%80%ED%91%9C%EB%9E%80&quot; aria-label=&quot;it 제품 스타트업의 대표란 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;IT 제품 스타트업의 대표란&lt;/h2&gt;
+&lt;p&gt;근래에 제품 조직에 대해 깊이 생각하고 있습니다. &lt;a href=&quot;http://www.kyobobook.co.kr/product/detailViewKor.laf?mallGb=KOR&amp;#x26;ejkGb=KOR&amp;#x26;barcode=9788947547031&quot;&gt;하드씽&lt;/a&gt;을 읽으며 스타트업의 피땀눈물을 조망해봤습니다. 이어 제품조직에 몸담으며 희미하게 느꼈지만 정리 되지 않았던 것들이 &lt;a href=&quot;http://www.yes24.com/Product/Goods/67512293&quot;&gt;인스파이어드&lt;/a&gt;를 읽으며 명확해졌습니다. 안되는 회사의 전형을 보며 공감도 됐고, 잘되는 회사의 모습을 보며 ‘아 저렇게 일해야 하는구나’ 깨닫기도 했습니다.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;TMI: 다음엔 &lt;a href=&quot;http://www.yes24.com/Product/Goods/104403814&quot;&gt;임파워드&lt;/a&gt;를 읽어볼 계획입니다.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;이직 회고를 하며 이 이야기를 꺼낸 이유는, 회사에서 대표의 영향력이 얼마나 중요한지 절실히 느꼈기 때문입니다. ‘당연한거 아니야?’ 생각하실 수 있겠지만, 스타트업에서는 그 의미가 더-더욱 큽니다. 대표가 의도했든 안했든 대표의 일거수일투족은 의미를 갖게 됩니다. 작은 제스처 하나가 큰 폭풍이 될 수 있는게 스타트업의 환경입니다. 그렇기에 대표의 이력과 경력, 사람됨이 중요해집니다.&lt;/p&gt;
+&lt;p&gt;결국 대표의 생각은 현실화되어 어떤 형태로든 제품 개발자인 저에게까지 영향을 미치게됩니다. HR, CTO, CPO, 부서이동, 휴게실, 행사 등등 다양한 형태로 대표의 의지가 담긴 채 개발자에게 전달됩니다. 회사에서 대표의 의지는 쉽사리 거부하기 어렵습니다. 물론 거부할 수 있지만 많은 에너지를 소비해야합니다. 맞서 싸울바에 대표가 제품개발/관리에 대한 이해를 더 잘 갖춘 곳으로 옮김다면, 온전히 제품을 개발하는데 힘을 기울일 수 있겠죠. 그리고 현재 회사에선 그러지 못하고 있습니다.&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;이직준비 + 밀린약속 등을 핑계로 4월 포스팅을 건너뛰고 5월로 넘어왔습니다. 꾸준히 글쓰는 건 정말 쉽지 않네요. 블로그를 꾸준히 쓰시는 분들, 정말 존경합니다.&lt;/p&gt;</content:encoded></item><item><title><![CDATA[about]]></title><link>https://goohooh.github.io/resume-en/</link><guid isPermaLink="false">https://goohooh.github.io/resume-en/</guid><pubDate>Sun, 27 Mar 2022 19:24:00 GMT</pubDate><content:encoded>&lt;div align=&quot;center&quot;&gt;
+&lt;h2&gt;호기심 덩어리&lt;/h2&gt;
+&lt;small&gt;사회 과학 경제 정치 문화 예술 사랑 ...&lt;/small&gt;
+&lt;h3 style=&quot;margin-top: 36px&quot;&gt;유쾌한 커뮤니케이션&lt;/h3&gt;
+&lt;h4&gt;도메인과 기술을&lt;/h4&gt;
+&lt;h5&gt;파고드는 집념&lt;h5&gt;
+&lt;h6&gt;프론트 개발자&lt;/h6&gt;
+&lt;h1&gt;Phil&lt;/h1&gt;
+&lt;p&gt;반갑습니다. 🥳&lt;p&gt;
+&lt;/div&gt;</content:encoded></item><item><title><![CDATA[about]]></title><link>https://goohooh.github.io/resume-ko/</link><guid isPermaLink="false">https://goohooh.github.io/resume-ko/</guid><pubDate>Sun, 27 Mar 2022 19:24:00 GMT</pubDate><content:encoded>&lt;div align=&quot;center&quot;&gt;
+&lt;h2&gt;호기심 덩어리&lt;/h2&gt;
+&lt;small&gt;사회 과학 경제 정치 문화 예술 사랑 ...&lt;/small&gt;
+&lt;h3 style=&quot;margin-top: 36px&quot;&gt;유쾌한 커뮤니케이션&lt;/h3&gt;
+&lt;h4&gt;도메인과 기술을&lt;/h4&gt;
+&lt;h5&gt;파고드는 집념&lt;h5&gt;
+&lt;h6&gt;프론트 개발자&lt;/h6&gt;
+&lt;h1&gt;Phil&lt;/h1&gt;
+&lt;p&gt;반갑습니다. 🥳&lt;p&gt;
+&lt;/div&gt;</content:encoded></item><item><title><![CDATA[MSW를 활용한 Clean UI Integration Test]]></title><description><![CDATA[UI 통합 테스트를 작성하다보면 몇가지 문제를 마주합니다. (Jest, React, Typescript…]]></description><link>https://goohooh.github.io/Testing/clean_ui_test_code/</link><guid isPermaLink="false">https://goohooh.github.io/Testing/clean_ui_test_code/</guid><pubDate>Sat, 26 Mar 2022 12:30:00 GMT</pubDate><content:encoded>&lt;p&gt;UI 통합 테스트를 작성하다보면 몇가지 문제를 마주합니다.&lt;/p&gt;
 &lt;p&gt;(Jest, React, Typescript 환경 예시)&lt;/p&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;tsx&quot;&gt;&lt;pre class=&quot;language-tsx&quot;&gt;&lt;code class=&quot;language-tsx&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; mocked &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;ts-jest/utils&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
 &lt;span class=&quot;token keyword&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; getPostsHook &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;./hooks&apos;&lt;/span&gt;
@@ -557,7 +606,4 @@ el&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;style&lt;span cl
 &lt;li&gt;테스트를 더 용이하게 만들기 위해 기존 코드구조를 바꿔야 한다면, 테스트 이외의 측면에도 이점이 있는가?&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;부족한 경험과 지식으로 테스트를 작성하다보면, 생각 이상으로 시간을 잡아먹는 부분이 많이 발생합니다.(삽질을 많이 하게 됩니다…) 그리고 때론 내가 잘 하고 있는건지, 허튼짓을 하는건 아닌지 의문이 들기도 합니다. 요구사항은 바뀌기 마련이고 이에따라 코드도 변경해야 하는데, 작성해둔 테스트가 짐짝처럼 느껴질 수도 있습니다. 이런 경험이 반복되면 테스트 작성 의지를 잃어버릴 수도 있습니다.&lt;/p&gt;
-&lt;p&gt;하지만 위 3가지 질문의 대답이 모두 Yes라면, 결코 시간낭비를 하고 있는건 아니니 용기 내어 마음껏 테스트를 작성해보시길 바랍니다. 분명 그 노력은 헛되지 않고, 이후 여러분이 즐겁고 마음 편히 프로젝트를 진행하도록 도와줄 것입니다. 🙏&lt;/p&gt;</content:encoded></item><item><title><![CDATA[about]]></title><description><![CDATA[Phil ❤ agile]]></description><link>https://goohooh.github.io/resume-en/</link><guid isPermaLink="false">https://goohooh.github.io/resume-en/</guid><pubDate>Sun, 27 Jan 2019 16:21:13 GMT</pubDate><content:encoded>&lt;h1 id=&quot;phil&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#phil&quot; aria-label=&quot;phil permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Phil&lt;/h1&gt;
-&lt;div align=&quot;center&quot;&gt;
-&lt;p&gt;❤ agile&lt;/p&gt;
-&lt;/div&gt;</content:encoded></item></channel></rss>
+&lt;p&gt;하지만 위 3가지 질문의 대답이 모두 Yes라면, 결코 시간낭비를 하고 있는건 아니니 용기 내어 마음껏 테스트를 작성해보시길 바랍니다. 분명 그 노력은 헛되지 않고, 이후 여러분이 즐겁고 마음 편히 프로젝트를 진행하도록 도와줄 것입니다. 🙏&lt;/p&gt;</content:encoded></item></channel></rss>
