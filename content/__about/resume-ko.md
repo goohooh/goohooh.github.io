@@ -1,7 +1,7 @@
 ---
 title: 'about'
 date: 2022-03-27 19:24:00
-lang: 'en'
+lang: 'ko'
 ---
 
 <div align="center">
