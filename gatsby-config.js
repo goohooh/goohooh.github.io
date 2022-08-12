@@ -112,9 +112,14 @@ module.exports = {
         publisherId: metaConfig.ad,
       },
     },
+    {
+      resolve: `gatsby-plugin-feed`,
+      options: {
+        feeds: []
+      }
+    },
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
-    `gatsby-plugin-feed`,
     `gatsby-plugin-offline`,
     `gatsby-plugin-react-helmet`,
     `gatsby-plugin-sass`,
