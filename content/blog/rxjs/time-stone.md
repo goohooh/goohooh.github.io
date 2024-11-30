@@ -1,66 +1,190 @@
 ---
 title: "RxJS Strange: 대혼돈의 User Interface"
-date: 2024-09-01 12:00:00
+date: 2024-11-17 12:00:00
 category: 'rxjs'
 draft: false
 ---
 
-![timestone.webp](./images/timestone.webp)
-
-> "타임스톤"은 시간을 자유자재로 다룰 수 있는 무척 강력한 도구지만, 잘못 사용할 경우 영원히 반복되는 시간에 갇히거나 존재가 소멸할 수 있습니다.
-
-RxJS는 이러한 '타이밍'을 컨트롤하기 쉽게 도와줍니다. '타임스톤'에 비유를 든 것은 이때문이죠.
-
-![rxjs](./images/rxjs-logo.png)
-
-## (1)그래, 많이 들어봤는데... 왜 써?
-
-여러분은 어떤 이유로 프론트엔드 개발을 하시나요? 저는 UI의 어려운 부분을 해결했을 때 큰 성취를 느낍니다. 복잡하고 까다로운 요구사항을 명쾌하게 풀어냈을 때 쾌감은 이루 말할 수 없습니다. DOM Event, User Event, State Management, Network API 호출과 비지니스 로직을 한꺼번에 다룸과 동시에 유저가 만족을 느끼는 Seamless하고도 Elegant한 UI 렌더링을 함께 달성하기란 무척 어렵습니다. 
-
-![reveal-time-stone](./images/reveal-time-stone.gif)
-
-생각하기만 해도 복잡한 이런 난관 속에서 RxJS가 빛을 발합니다. 일견 불가능해 보였던 요구사항도 RxJS를 사용해 손쉽게 해결한 경우가 많았습니다.
-
-- DOM Event
-- User Event
-- Network API
-
-위 3가지 모두 비동기 Action이며 프론트 개발자가 통제하기 어려운 영역입니다. 여러 액션의 조합으로 특정 조건에 따라 UI를 렌더링 한다고 상상해볼까요? 대부분 머리가 지끈거리게 될겁니다. 하지만 피할 수 없는 프론트 개발자의 숙명이죠
-
-![inevitable](./images/i-am-inevitable.png)
-
-어찌어찌 동작하는 코드를 작성할 수 있겠습니다마는, 대체로 가독성이 무척 떨어지기 마련이죠. 비동기 코드를 다루기란 대체로 그렇습니다. 전통적인 [Pulling 방식의 코딩](https://rxjs-dev.firebaseapp.com/guide/observable#pull-versus-push)으로는, 비동기 액션들의 타이밍을 종잡기 쉽지 않거든요.
-
-하지만 개발자가 힘들어질수록 유저는 편해지기 마련입니다. 유저에게 많은 비주얼 피드백을 제공할수록 개발 난이도는 올라가지만, 제품의 매력은 상승하기 마련입니다. 그러니 안 쓸 이유가 없지 않을까요?
-
 > "상상의 경계를 무너뜨릴 광기"
 > <div style="text-align: right; font-style: italic;">닥터 스트레인지: 대혼돈의 멀티버스 中</div>
 
-## (2)그래, 많이 들어봤는데... React랑 안맞지 않아?
+# 프론트 엔드, 왜 하나요?
 
-RxJS하면 Angular를 떠올리는 경우가 많습니다. 아무래도 프레임워크 자체에서 rxjs를 지원하기 때문인데요. 그래서인지 React 진영에서는 그만큼 관심이 크지 않은 것 같습니다.(제가 느끼기엔 그렇습니다)
+저는 화면을 만드는 게 재밌습니다. 유저들이 UI를 통해 만족을 표현해 줄 때 큰 희열을 느낍니다. 연차가 쌓이며 더 복잡한 화면을 구현해 왔습니다. 다양한 이벤트와 비지니스 로직을 다루며, 동시에 유저가 만족을 느끼는 UI/UX를 구현했을 때 느끼는 성취감은 이루 말할 수 없습니다. 요구사항이 복잡하면 할수록 의지가 불탑니다.
 
-본격적으로 rxjs를 익히고 react에 적용하려 했을 때, 막막함을 느끼곤 했습니다. 각각의 메커니즘은 이해를 했는데, 이를 함께 사용하기가 까다로웠습니다. 동작한다 하더라도, `useEffect` 로 누더기 코드가 되곤했죠. 이는 react의 데이터는 **위에서 아래로** 흐르는 단방향성에서 기인합니다. React의 개발 철학이기 때문에 근본적으로 RxJS와 충돌할 수 밖에 없었습니다. 
+![rxjs](./images/rxjs-logo.png)
 
-- React :arrow_right:  **위에서 아래로 흐르는** 데이터를 UI로 표현
-- RxJS :arrow_right: **위/아래/앞/뒤로 흐르는** 데이터를 핸들링
+처음부터 이렇게 의욕적이지는 않았습니다. 우연히 화려하고 복잡한 UI를 가진 앱을 볼때면 불안감에 두려움이 생기곤 했습니다.
+
+> _어떻게 만들었지? 회사에서 저렇게 만들어 달라고하면 어떡하지?_ 
+
+
+하지만 RxJS를 익힌 이후로는 요구사항이 복잡할수록 오히려 도전욕구가 생겼고, 이에 화답하듯 RxJS는 빛을 발했습니다. 복잡한 요구사항을 해결해 나가면서 더이상 두려움을 느끼지 않게 됐습니다.
+
+![reveal-time-stone](./images/reveal-time-stone.gif)
+
+## (1)그래, 많이 들어봤는데... 꼭 써야해?
+
+결론부터 말 하자면, 제 대답은 "아니요" 입니다. 기본적인 CRUD UI에는 필수 요소가 아닙니다. 오히려 오버 엔지니어링일 확률이 높습니다.
+
+하지만, 한가지 확실하게 말씀드릴 수 있는 부분이 있습니다.
+
+"앞으로 프론트 엔드 커리어를 계속 쌓아가실 생각이라면, 마냥 피할 수 없습니다."
+
+![inevitable](./images/i-am-inevitable.png)
+
+현대에 이르러 브라우저의 영역은 매우 넓어졌고 **다양한 데이터**를 다루게 됐습니다. 왠만한 어플리케이션은 웹으로 작성이 가능해졌습니다. 그리고 웹 세상에서 데이터는 **이벤트**를 통해 전달됩니다.
+
+- DOM Event
+- User Event
+- Network Event
+- Device Event
+- ...
+
+이벤트는 모두 비동기로 동작합니다. 즉! 프론트 개발자는 **수많은 비동기 코드를** 다뤄야한다는 뜻입니다. 그렇게 날로 복잡해지는 비동기 코드를 다루기 위해, 일반적으로 2가지 테크닉을 사용합니다. 
+
+- Callback
+- Promise
+
+### UI 복잡도 == 이벤트 복잡도 
+
+복잡한 UI는 금새 다양한 데이터(=이벤트)로 엮이고, 어느 지점부터 Callback과 Promise 만으로 **원하는 타이밍에** 원하는 동작을 수행하기 점점 어려워집니다. 
+
+> A이벤트가 n번 이상 발생했을 때, B이벤트가 발생하면 동작C을 실행하시오. 그 사이 D이벤트가 1번이라도 발생했다면 C동작을 실행중이더라도 C동작을 취소하고 E 동작을 실행하시오
+
+Callback과 Promise만으로 위 시나리오를 구현하기란 쉽지 않습니다. 부가적인 상태를 관리해야하기 때문에 코드가 매우 복잡하고 가독성이 떨어지게 됩니다.
+
+```js
+let eventACounter = 0;
+let isActionCActive = false;
+
+// DOM Event
+document.getElementById('buttonA').addEventListener('click', () => {
+  eventACounter++;
+});
+
+// Network Event
+fetch('/some-url')
+  .then(response => {
+    if (response.ok) {
+      eventACounter++;
+    }
+  });
+
+// Device Event
+window.addEventListener('orientationchange', () => {
+  eventACounter++;
+});
+
+// 이벤트B 발생
+document.getElementById('buttonB').addEventListener('click', () => {
+  if (eventACounter >= n) {
+    isActionCActive = true;
+    // 동작C 실행
+    console.log("동작C 실행");
+  }
+});
+
+// 이벤트D 발생
+document.getElementById('buttonD').addEventListener('click', () => {
+  if (isActionCActive) {
+    isActionCActive = false;
+    console.log("동작C 취소, 동작E 실행");
+  }
+});
+```
+
+흐름이 복잡합니다. 코드를 위아래로 훑어가며 비동기 흐름을 따라가기 쉽지 않습니다. 개발자가 상태를 직접 관리해야하며, 이벤트마다 동작을 정의해야 합니다. 
+
+즉 시간이 흘러 버그가 숨어들기 좋은 코드라는 뜻 입니다. 불안합니다.
+
+이런 복잡한 타이밍 컨트롤을 어떻게 **안정적으로** 할 수 있을까요? 이제 방안을 모색해야 할 순간입니다.
+
+![timestone.webp](./images/timestone.webp)
+
+[RxJS](https://rxjs.dev/)는 이러한 '타이밍'을 컨트롤하기 쉽게 도와줍니다. Observable이라는 개념을 도입하여 '시간' 위에서 데이터를 핸들링하도록 설계됐습니다. 마치 '타임스톤' 처럼 말이죠.
+
+RxJS로 재구성해보겠습니다.
+
+```js
+import { fromEvent, merge, from } from 'rxjs';
+import { scan, filter, takeUntil, tap, switchMap } from 'rxjs/operators';
+
+// 이벤트 소스
+const buttonAClick$ = fromEvent(document.getElementById('buttonA'), 'click');
+const userAction$ = new Subject(); // User Event
+const networkEvent$ = from(fetch('/some-url')).pipe(
+  filter(response => response.ok)
+); // Network Event
+const orientationChange$ = fromEvent(window, 'orientationchange'); // Device Event
+const buttonBClick$ = fromEvent(document.getElementById('buttonB'), 'click');
+const buttonDClick$ = fromEvent(document.getElementById('buttonD'), 'click');
+
+// 이벤트A가 n번 이상 발생한 경우의 stream
+const aEventCount$ = merge(buttonAClick$, userAction$, networkEvent$, orientationChange$).pipe(
+  scan((acc) => acc + 1, 0),
+  filter(count => count >= n)
+);
+
+// 이벤트B가 발생하면 동작C 실행
+const actionC$ = buttonBClick$.pipe(
+  takeUntil(buttonDClick$),
+  switchMap(() => aEventCount$),
+  tap(() => {
+    console.log("동작C 실행");
+  })
+);
+
+// 이벤트D가 발생하면 동작C를 취소하고 E 동작 실행
+const actionE$ = buttonDClick$.pipe(
+  tap(() => {
+    console.log("동작C 취소, 동작E 실행");
+  })
+);
+
+// Subscription
+const subscription = actionC$.subscribe();
+buttonDClick$.subscribe(() => subscription.unsubscribe());
+```
+
+처음보는 함수들 때문에 놀라셨겠지만, 당장은 자세히 모르셔도 괜찮습니다. `Subject`는 Observable의 파생형태이며, `operator`는 절차적으로 작성되는
+- 조건문
+- 반복문
+- 계산
+들을 추상화한 함수입니다. 가독성을 높이고 프로시져를 재사용한다는 느낌만 가져가도 괜찮습니다. 그것만으로도 이미 강력함을 느끼셨으리라 생각합니다.
+
+## (2)그래, 많이 들어봤는데... React랑 어울려?
+
+본격적으로 RxJS를 익히고 React에 적용하려 했을 때, 막막한 면이 있었습니다. 각각의 메커니즘은 이해를 했는데, 이를 함께 사용하기가 까다로웠습니다. 동작한다 하더라도, 가독성이 무척 떨어졌습니다.
+
+애초에 React는 입력 데이터를 UI로 출력하는 데만 관심이 있을 뿐, 비동기 이벤트를 다루는 것은 크게 관심이 없습니다. 게다가 React의 데이터 처리 방식은 근본적으로 RxJS와 방향이 다릅니다. 
+
+> Some popular libraries implement the “push” approach where computations are performed when the new data is available. React, however, sticks to the “pull” approach where computations can be delayed until necessary.
+> <div style="text-align: right; font-style: italic;"><a href="https://legacy.reactjs.org/docs/design-principles.html#scheduling" target="blank">React docs, design principles</a></div>
+
+### React
+- **위에서 아래로 흐르는** 데이터를 React가 스케쥴링하여 UI로 표현
+- Pull Approach
+
+### RxJS 
+- 위/아래 가리지 않고 **시간에 따라 흐르는** 데이터를 핸들링
+- Push Approach
 
 ![thread-of-time](./images/Ancient-One-Timeline-Infinity-Stones-Banner.avif)
 
-태생부터 결이 다른 라이브러리를 동시에 사용하려니 불편함을 느낄 수밖에 없었죠. 그렇지만 각각 오래된 라이브러리기도 했고, 분명 누군가 이러한 불편함을 해결했으리라 생각했습니다. 다행히 몇몇 후보들이 있었고 그 중에서도 [observable-hooks](https://observable-hooks.js.org/)는 모든 불편함을 해소해주었습니다.
-- :star: Observable-Hooks :arrow_right: rxjs 데이터가 hook을 통해 react 컴포넌트로 제공됨
+태생부터 결이 다른 라이브러리를 동시에 사용하려니 불편함을 느낄 수밖에 없었습니다. 하지만 각기 오래된 라이브러리이고, 누군가 이미 불편함을 해결했으리라 생각했습니다. 다행히 몇몇 후보들을 발견했고, 그 중 [Observable-Hooks](https://observable-hooks.js.org/)가 단연 뛰어나 보였습니다.
 
-# Observable and React Hook!
+# Observable :heart: Hook!
 
 > "타임스톤"은 무척 강력한 도구지만, 왠만한 실력자가 아닌 이상 쉽게 다룰 수 없습니다. "아가모토의 눈"은 이를 효율적으로 제어하기 위한 도구입니다.
 
 ![time-stone](./images/agamoto-eye.gif)
 
-RxJS가 "타임 스톤"이라면, Observable-Hooks는 이를 React에서 수월하게 사용하기 위한 "아가모토의 눈"이라 할 수 있습니다. 
+RxJS가 **타임 스톤**이라면, [Observable-Hooks](https://observable-hooks.js.org/)는 이를 React에서 수월하게 사용하기 위한 **아가모토의 눈**이라 할 수 있습니다. 
 
 ![observable-hooks](./images/observable-hooks-logo.jpg)
 
-잠시 아래 인터페이스들을 살펴볼까요? React 개발자라면 무척 친숙한 모습입니다.
+잠시 아래 인터페이스들을 살펴볼까요? React 개발자라면 매우 친숙할 모습입니다.
 
 - `useObservableState()`
 - `useObservableCallback()`
@@ -68,45 +192,64 @@ RxJS가 "타임 스톤"이라면, Observable-Hooks는 이를 React에서 수월�
 - `useLayoutSubscription()`
 <sub>(더 많은 hook들이 존재하지만 우선 이정도만 소개하고 넘어 가겠습니다.)</sub>
 
-React Component 내에서 위 hook들을 적절히 조합하면, 원하는 UI를 원하는 타이밍에 렌더링할 수 있습니다. 이제 조금 감이 잡힐까요?
+React Component 내에서 위 hook들에게 RxJS 함수들을 제공하면, 깔끔하게 원하는 UI를 원하는 타이밍에 렌더링할 수 있습니다. 아무리 많은 이벤트와 데이터가 얽혀있더라도요!
+
+#### Hook
+- React Component가 데이터를 pull해오는 메커니즘을 제공
+- 함수를 넘김 수 있음
+
+#### RxJS
+- React 스케쥴에 종속되지 않는 자유로운 push 파이프라인 제공
+- 파이프라인은 함수이며 hook과 결합 가능
+
+
+조금 감이 잡히시나요?
 
 
 # Talk is cheap. Show me the code
 
-_아래 코드는 react-query 및 react-hook-form을 안다는 가정하에 작성했습니다._
+조금 더 실용적인 예제로 넘어가 보겠습니다.
 
-```js
-const useGenerateZipFile = () => {
-  return useMutation({
-    mutationFn: (values) => fetch('/api/zip', {
-      method: 'POST',
-      body: JSON.stringify(values),
-    })
-  });
-};
+> _아래 코드는 react-query, react-hook-form을 알고 있다는 가정하에 작성했습니다._
 
-function fetchZipDownloadByRequestId(requestId: string) {
-  return fetch(`/api/zip/${requestId}`);
-}
-```
+### 요구사항
 
-위 함수들을 이용해 
 - zip 파일 생성 요청
 - 요청 id를 통해 polling
 - zip 파일이 생성이 완료되면 다운로드
-하고자 합니다. 이제 컴포넌트로 들어가볼까요?
+
+### API Spec
+```js
+[POST] `/api/zip`
+[Body]
+- data: JSON
+[Response]
+- requestId: string;
+
+[GET] `/api/zip/<requestId: string>`
+[Response]
+- downloadUrl: string | null;
+
+```
+
+이제 컴포넌트로 들어가볼까요?
 
 ## 일반적인 코드
 
 ```jsx
 const MyComponent = () => {
   const methods = useForm();
-  const { mutateAsync } = useGenerateZipFile();
+  const { mutateAsync, error: generateError } = useMutation({
+    mutationFn: (values) => fetch('/api/zip', {
+      method: 'POST',
+      body: JSON.stringify(values),
+    })
+  });
   cons [requestId, setRequestId] = useState(null);
 
-  const { data, isError, error } = useQuery(
+  const { data, error: queryError } = useQuery(
     ['pollDownloadUrl', requestId],
-    () => fetchZipDownloadAsyncByRequestId(requestId),
+    () => fetch(`/api/zip/${requestId}`),
     {
       enabled: Boolean(requestId), // requestId가 존재하고 폴링이 활성화된 경우에만 실행
       refetchInterval: (data) => {
@@ -125,17 +268,16 @@ const MyComponent = () => {
   }, [data]);
 
   useEffect(() => {
-    if (isError && error) {
-      toast.error(error.message);
+    if (generateError || queryError) {
+      toast.error((generateError || queryError).message);
     }
-  }, [isError, error]);
+  }, [generateError, queryError]);
 
   const onSubmit = async (values) => {
     try {
       toast('Generating and compressing files');
       const response = await mutateAsync(values);
       
-      // Zip 파일 생성이 성공하면 requestId를 상태로 저장하고 폴링 활성화
       setRequestId(response.requestId);
     } catch (err) {
       toast.error(err.message);
@@ -143,12 +285,8 @@ const MyComponent = () => {
   };
 
   return (
-    <form
-      onSubmit={(e) => {
-        void methods.handleSubmit(onSubmit)(e);
-      }}
-    >
-      {/* form elements */}
+    <form onSubmit={methods.handleSubmit(onSubmit)}>
+      {/* ... */}
     </form>
   );
 };
@@ -159,7 +297,6 @@ const MyComponent = () => {
 ```jsx
 const MyComponent = () => {
   const methods = useForm();
-  const { mutateAsync } = useGenerateZipFile();
   const [onGenerateResponse, onPollingResponse$] = useObservableCallback((generateResponse$) =>
     generateResponse$.pipe(
       tap(() => {
@@ -167,7 +304,7 @@ const MyComponent = () => {
       }),
       switchMap((response) => {
         return interval(1000 * 5).pipe(
-          switchMap(() => fetchZipDownloadAsyncByRequestId(response.requestId)),
+          switchMap(() => fetch(`/api/zip/${response.requestId}`)),
           catchError((error) => {
             toast.error(error.message);
             return EMPTY;
@@ -187,53 +324,153 @@ const MyComponent = () => {
     }
   });
 
-  const onSubmit = async (values) => {
-    await mutateAsync(values)
+  const onSubmit = (values) => {
+    fetch('/api/zip', {
+      method: 'POST',
+      body: JSON.stringify(values),
+    })
       .then(onGenerateResponse)
       .catch((err) => toast.error(err.message));
   }
 
   return (
-    <form
-      onSubmit={(e) => {
-        void methods.handleSubmit(onSubmit)(e);
-      }}
-    >
-    {/* ... */}
+    <form onSubmit={methods.handleSubmit(onSubmit)}>
+      {/* ... */}
     </form>
   );
 }
 ```
 
-요구사항을 바꿔보겠습니다. 1초 마다 
+일반 React 코드는 여러 useEffect 훅과 useQuery 훅을 사용하여 폴링 로직, 오류 처리, 상태 업데이트를 관리합니다. 이로 인해 코드가 분산되고 관리하기 복잡해질 수 있습니다.
 
-하지만 막상 익히려 하면 생각 이상으로 [어렵다는 것](https://x.com/hoss/status/742643506536153088)이 선뜻 추천하기 어려운 이유이기도 합니다.
+Observable-hook의 useObservableCallback과 switchMap을 사용하면 생성, 폴링, 오류 처리를 하나의 파이프라인에서 관리합니다. 이는 비동기 작업의 흐름을 보다 직관적이고 선언적으로 표현할 수 있게 해줍니다.
 
-1) 개발자에게 추가적인 개발 패러다임을 익힐 것을 요구하고
-2) 수 많은 operator를 익혀야 하며
-3) 자칫 디버깅이 매우 어려워 질 수 있습니다.
+**이벤트(비동기 코드)** 관리가 Array의 map/filter/reduce를 다루듯 단순해 졌습니다.
 
 # 점진적 적용 및 개선
 
-이토록 좋은 RxJS지만, 명백한 제약조건이 있습니다. 
-- 학습 난이도가 높다.
-- 조심해서 사용해야한다.
-- 디버깅이 어렵다.
+> 타임스톤은 시간을 자유자재로 다룰 수 있는 무척 강력한 도구지만, 잘못 사용할 경우 영원히 반복되는 시간에 갇히거나 존재가 소멸할 수 있습니다.
 
-보통 rxjs의 수많은 operator에 압도되곤 합니다. 모든 operator를 익히기보다, Observable의 메커니즘에 집중하여, 적절한 사용처를 찾는 것을 추천드립니다.
+이토록 멋진 RxJS지만, 명백한 제약조건이 있습니다. 
 
-- 타이머, hotkey
-- Provider: Boundary 설정 및 리렌더링 없는 역상태전파
-- debug(): https://www.youtube.com/watch?v=ZxVN4597RX8
+#### [Learning Curve? Learning Cliff!](https://x.com/hoss/status/742643506536153088)
 
-부작용을 잘 생각해야하지만, boundary를 잘 설정한다면 문제는 최소화 할 수 있습니다. 그리고 익숙해질수록 더 큰 범위의, 더 어려운 UI를 구현할 수 있습니다. RxJS를 한마디로 설명한다면 아래와 같이 표현할 수 있겠네요.
+- 추가적인 개발 패러다임을 익힐 것을 요구
+- 수 많은 operator
+- 까다로운 디버깅
 
-# 성장에 끝은 없다!
+그래서! 저는 단계별로 학습하길 권장드립니다.
 
-RxJS를 왜 써야하는지 고민하던 시기가 있었습니다. 커리어에 도움이 될 것 같으면서도 한편으로 크게 와닿지 않아서, 간단히 공부하고 말았습니다. 하지만 지금은 무척 즐겨 사용하는 도구 중 하나입니다. 복잡한 UI를 다루면서 효용성을 많이 깨닫고 끊임없이 공부(수련)중입니다. 
+## Operator보다 Observable
+
+보통 RxJS의 수많은 operator에 압도되곤 합니다. 모든 operator를 익히기보다, Observable의 메커니즘에 집중하여, 간단한 사용처를 찾는 것부터 시작할 것을 추천드립니다.
+
+```jsx
+export function List() {
+  const { data, isLoading } = useList();
+  const invalidate = useInvalidateList();
+
+  // 너무 많은 요청을 방지하기 위한 쓰로틀링
+  const [throttledOnClick, throttledOnClickStream$] =
+    useObservableCallback<PressEvent>((event$) =>
+      event$.pipe(throttleTime(2000)),
+    );
+
+  useSubscription(throttledOnClickStream$, invalidateList);
+
+  return (
+    <div className="flex flex-col">
+      <RefreshButton onPress={throttledOnClick} />
+
+      <Table loading={isLoading} rows={data} />
+    </div>
+  );
+}
+```
+
+보다 복잡한 예시들은 검색을 통해 찾을 수 있습니다. 일단 동작시켜보고 operator가 어떻게 동작하는지 체감해본다면 빠르게 익히실 수 있습니다.
+
+## Provider를 통한 상태전파 및 Boundary 설정
+
+React에서 제공하는 Provider를 통해 상태를 전파할 수 있습니다. 원래 Provider는 상태가 변하면 하위 컴포넌트들을 모두 리렌더링 하지만, Observable 객체는 파이프라인에 불과하고 변하는 건 그 안에 흐르는 데이터이기 때문에 리렌더링이 발생하지 않습니다. 이를 통해 자식에서 부모/형제로 상태를 전파하기 매우 수월합니다.
+
+단순한 상태 전파라면 다른 라이브러리들을 사용하는 게 나을 수도있지만, 저는 일부러 Provider를 사용합니다.
+
+1. 전역 상태를 최소화하여 사이드 이펙트를 방지한다.
+1. JSX문법으로 명확한 Boundary(경계)를 설정할 수 있다.
+
+경계를 설정하는 것만으로도 디버깅에 매우 큰 도움이 됩니다. 다른 상태들과 엮여 의도치 않은 동작이 일어나는 것을 방지하기도 합니다.
+
+## 커스텀 Debug 함수
+
+> 출처: https://blog.angular-university.io/debug-rxjs/
+
+```ts
+import {Observable} from 'rxjs';
+import {tap} from 'rxjs/operators';
+
+export enum RxJsLoggingLevel {
+    TRACE,
+    DEBUG,
+    INFO,
+    ERROR
+}
+
+let rxjsLoggingLevel = RxJsLoggingLevel.INFO;
+
+export function setRxJsLoggingLevel(level: RxJsLoggingLevel) {
+    rxjsLoggingLevel = level;
+}
+
+
+export const debug = (level: number, message:string) =>
+  (source: Observable<any>) => source
+    .pipe(
+      tap(val => {
+        if (level >= rxjsLoggingLevel) {
+            console.log(message + ': ', val);
+        }
+      })
+    );
+```
+
+위 커스텀 디버그 함수를 통해 보다 편리하게 디버깅을 수행할 수도 있습니다.
+
+```ts
+countdownStartTime$.pipe(
+  debug(LogginLevel.DEBUG, "Start Time")
+  distinctUntilChanged(),
+  switchMap(() =>
+    of(animationFrameScheduler.now(), animationFrameScheduler).pipe(
+      repeat(),
+      map((startTime) => Math.floor((Date.now() - startTime) / 1000)),
+      debug(LogginLevel.DEBUG, "How many left?")
+      distinctUntilChanged(),
+      take(expiresIn),
+      scan((timeLeft) => timeLeft - 1, expiresIn),
+    ),
+  ),
+),
+```
+
+# 소서러 슈프론트:star:(?)
+
+RxJS를 왜 써야하는지 고민하던 시기가 있었습니다. 커리어에 도움이 될 것 같으면서도 한편으로 크게 와닿지 않아서, 간단히 공부하기에 그쳤었죠. 하지만 지금은 무척 즐겨 사용하는 Goto Library 중 하나가 됐습니다. 복잡한 UI를 다루면서 효용성을 많이 깨닫고 아직도 끊임없이 수련중입니다. (스트레인지까지는 아니더라도, 웡 수준만 돼도 만족할거 같습니다!)
 
 ![training](./images/training.gif)
 
- 닥터 스트레인지 조차 이 타임스톤을 자유자재로 다루기 위해 힘든 역경을 지나왔습니다. 그리고 마침내 최강의 소서러 슈프림으로 등극합니다.
+ 닥터 스트레인지도 타임스톤을 자유자재로 다루기 위해 힘든 역경을 지나왔습니다. 더딘 발전에 괴로워하며, 사랑하는 사람을 떠나보내기도 하고 :cry: 스승을 잃고 무거운 책임감을 받아드리기에 이르렀습니다. 그리고 마침내 최강의 소서러 슈프림으로 등극합니다.
 
-오늘도 성장하고 싶은 프론트 개발자분들께, RxJS + Observable-Hooks를 적극 권하며 이만 마치도록 하겠습니다. Adios!
+소서러 슈프림은 예로부터 
+- 우주의 질서와 균형을 유지합니다.
+- 우주의 모든 존재를 외부 위협으로부터 지킵니다.
+
+프론트엔드 개발자 또한
+- 코드의 질서와 균형을 유지하며
+- 수많은 이벤트와 데이터, 타이밍의 위협으로부터 프로젝트를 지켜야합니다.
+
+### RxJS: 성장의 경계를 무너뜨릴 신기
+
+오늘도 성장에 목마른 프론트 개발자분들께 [RxJS](https://rxjs.dev/)를, 나아가 React 개발자에게는 [Observable-Hooks](https://observable-hooks.js.org/)까지 적극 권하며 이만 마치겠습니다. 
+
+피드백은 언제나 환영입니다, Adios!
