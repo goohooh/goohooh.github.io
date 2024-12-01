@@ -1,6 +1,6 @@
 ---
 title: "RxJS Strange: 대혼돈의 User Interface"
-date: 2024-11-17 12:00:00
+date: 2024-12-01 11:00:00
 category: 'rxjs'
 draft: false
 ---
@@ -14,7 +14,7 @@ draft: false
 
 ![rxjs](./images/rxjs-logo.png)
 
-처음부터 이렇게 의욕적이지는 않았습니다. 우연히 화려하고 복잡한 UI를 가진 앱을 볼때면 불안감에 두려움이 생기곤 했습니다.
+처음부터 이렇게 의욕적이지는 않았습니다. 우연히 화려하고 복잡한 UI를 가진 앱을 볼때면 불안감이 생기곤 했습니다.
 
 > _어떻게 만들었지? 회사에서 저렇게 만들어 달라고하면 어떡하지?_ 
 
@@ -48,53 +48,98 @@ draft: false
 
 ### UI 복잡도 == 이벤트 복잡도 
 
-복잡한 UI는 금새 다양한 데이터(=이벤트)로 엮이고, 어느 지점부터 Callback과 Promise 만으로 **원하는 타이밍에** 원하는 동작을 수행하기 점점 어려워집니다. 
+복잡한 UI는 금새 다양한 데이터(=이벤트)로 엮이고, 어느 지점부터 Callback과 Promise 만으로 **원하는 타이밍에** 원하는 동작을 수행하기 점점 버거워집니다. 
 
-> A이벤트가 n번 이상 발생했을 때, B이벤트가 발생하면 동작C을 실행하시오. 그 사이 D이벤트가 1번이라도 발생했다면 C동작을 실행중이더라도 C동작을 취소하고 E 동작을 실행하시오
+> A이벤트가 n번 이상 발생한 이후 B이벤트가 발생하면 네트워크 요청을 실행하시오. 네트워크 요청중 C이벤트가 1번이라도 발생했다면 네트워크 요청을 취소하고 D 동작을 실행하시오
 
 Callback과 Promise만으로 위 시나리오를 구현하기란 쉽지 않습니다. 부가적인 상태를 관리해야하기 때문에 코드가 매우 복잡하고 가독성이 떨어지게 됩니다.
 
 ```js
-let eventACounter = 0;
-let isActionCActive = false;
+const aEventThreshold = 3;
 
-// DOM Event
+let aCount = 0;
+let bCount = 0;
+let networkRequestInProgress = false;
+
+// A 이벤트 핸들러
 document.getElementById('buttonA').addEventListener('click', () => {
-  eventACounter++;
+  aCount++;
+  console.log(`A 이벤트 발생, 현재 카운트: ${aCount}`);
+
+  if (bCount >= 1) {
+    startNetworkRequest();
+  }
 });
 
-// Network Event
-fetch('/some-url')
-  .then(response => {
-    if (response.ok) {
-      eventACounter++;
-    }
-  });
-
-// Device Event
-window.addEventListener('orientationchange', () => {
-  eventACounter++;
-});
-
-// 이벤트B 발생
+// B 이벤트 핸들러
 document.getElementById('buttonB').addEventListener('click', () => {
-  if (eventACounter >= n) {
-    isActionCActive = true;
-    // 동작C 실행
-    console.log("동작C 실행");
+  bCount++;
+  if (aCount >= aEventThreshold && !networkRequestInProgress) {
+    console.log('네트워크 호출 조건 만족')
+    startNetworkRequest();
   }
 });
 
-// 이벤트D 발생
-document.getElementById('buttonD').addEventListener('click', () => {
-  if (isActionCActive) {
-    isActionCActive = false;
-    console.log("동작C 취소, 동작E 실행");
+// C 이벤트 핸들러
+document.getElementById('buttonC').addEventListener('click', () => {
+  if (networkRequestInProgress) {
+    tap(() => console.log('C 이벤트 발생, 취소 시그널 전달')),
+    cancelNetworkRequest();
   }
+  invokeEventD();
 });
+
+// 네트워크 요청 관리
+let currentRequest = null;
+
+function startNetworkRequest() {
+  console.log('네트워크 요청 시작');
+  networkRequestInProgress = true;
+
+  // fetchWithCancel 호출
+  currentRequest = fetchWithCancel('https://jsonplaceholder.typicode.com/posts');
+
+  currentRequest.promise
+    .then(data => {
+      console.log('네트워크 요청 완료:', data);
+      networkRequestInProgress = false;
+    })
+    .catch(err => {
+      if (err.name === 'AbortError') {
+        console.log('네트워크 요청 취소됨');
+      } else {
+        console.error('네트워크 요청 중 에러 발생:', err);
+      }
+      networkRequestInProgress = false;
+    });
+}
+
+// 네트워크 요청 함수 (AbortController 포함)
+function fetchWithCancel(url) {
+  const controller = new AbortController();
+  const signal = controller.signal;
+
+  const fetchPromise = fetch(url, { signal }).then(response => response.json());
+
+  return { promise: fetchPromise, abort: () => controller.abort() };
+}
+
+// 네트워크 요청 취소
+function cancelNetworkRequest() {
+  if (currentRequest) {
+    console.log('네트워크 요청 취소');
+    currentRequest.abort();
+    networkRequestInProgress = false;
+    currentRequest = null;
+  }
+}
+
+function invokeEventD() {
+  console.log('D 동작 실행');
+}
 ```
 
-흐름이 복잡합니다. 코드를 위아래로 훑어가며 비동기 흐름을 따라가기 쉽지 않습니다. 개발자가 상태를 직접 관리해야하며, 이벤트마다 동작을 정의해야 합니다. 
+ 개발자가 상태를 직접 관리해야하며, 새로운 이벤트나 조건을 추가할 때 유지보수 비용이 증가합니다. 코드를 위아래로 훑어가며 비동기 흐름을 따라가기 쉽지 않습니다.
 
 즉 시간이 흘러 버그가 숨어들기 좋은 코드라는 뜻 입니다. 불안합니다.
 
@@ -102,56 +147,90 @@ document.getElementById('buttonD').addEventListener('click', () => {
 
 ![timestone.webp](./images/timestone.webp)
 
-[RxJS](https://rxjs.dev/)는 이러한 '타이밍'을 컨트롤하기 쉽게 도와줍니다. Observable이라는 개념을 도입하여 '시간' 위에서 데이터를 핸들링하도록 설계됐습니다. 마치 '타임스톤' 처럼 말이죠.
+[RxJS](https://rxjs.dev/)는 이러한 '타이밍' 컨트롤을 도와줍니다. Observable이라는 개념을 도입하여 '시간' 위에서 데이터를 핸들링하도록 설계됐습니다. 마치 '타임스톤' 처럼 말이죠.
 
 RxJS로 재구성해보겠습니다.
 
 ```js
-import { fromEvent, merge, from } from 'rxjs';
-import { scan, filter, takeUntil, tap, switchMap } from 'rxjs/operators';
+import { fromEvent, combineLatest, Subject, from } from 'rxjs';
+import { scan, filter, switchMap, takeUntil, tap, finalize, shareReplay } from 'rxjs/operators';
 
-// 이벤트 소스
-const buttonAClick$ = fromEvent(document.getElementById('buttonA'), 'click');
-const userAction$ = new Subject(); // User Event
-const networkEvent$ = from(fetch('/some-url')).pipe(
-  filter(response => response.ok)
-); // Network Event
-const orientationChange$ = fromEvent(window, 'orientationchange'); // Device Event
-const buttonBClick$ = fromEvent(document.getElementById('buttonB'), 'click');
-const buttonDClick$ = fromEvent(document.getElementById('buttonD'), 'click');
+// 이벤트 스트림 생성
+const aEvent$ = fromEvent(document.getElementById('buttonA'), 'click'); // A 이벤트
+const bEvent$ = fromEvent(document.getElementById('buttonB'), 'click'); // B 이벤트
+const cEvent$ = fromEvent(document.getElementById('buttonC'), 'click'); // C 이벤트
 
-// 이벤트A가 n번 이상 발생한 경우의 stream
-const aEventCount$ = merge(buttonAClick$, userAction$, networkEvent$, orientationChange$).pipe(
-  scan((acc) => acc + 1, 0),
-  filter(count => count >= n)
+const aEventThreshold = 3;
+
+// A 이벤트 발생 횟수 상태 관리
+const aCount$ = aEvent$.pipe(scan(count => count + 1, 0));
+
+// 네트워크 이벤트 트리거 조건: A 이벤트가 n번 이상, B이벤트 1번 이상 발생
+const trigger$ = combineLatest([aCount$, bEvent$]).pipe(
+  filter(([aCount, bEvent]) => aCount >= aEventThreshold && bEvent)
+  tap(() => console.log('네트워크 호출 조건 만족'))
 );
 
-// 이벤트B가 발생하면 동작C 실행
-const actionC$ = buttonBClick$.pipe(
-  takeUntil(buttonDClick$),
-  switchMap(() => aEventCount$),
-  tap(() => {
-    console.log("동작C 실행");
+// C 이벤트로 네트워크 요청 취소 시그널 생성
+const cancel$ = cEvent$.pipe(
+  tap(() => console.log('C 이벤트 발생, 취소 시그널 전달')),
+  shareReplay(1) // 여러 구독에서 재사용 가능하도록 공유
+);
+
+// 네트워크 요청
+const networkRequest$ = trigger$.pipe(
+  switchMap(() => {
+    const { promise, abort } = fetchWithCancel('https://jsonplaceholder.typicode.com/users/7?_delay=3000');
+
+    // Observable로 변환하여 취소 관리
+    const fetchObservable$ = from(promise).pipe(
+      takeUntil(cancel$), // C 이벤트로 취소 처리
+      finalize(() => {
+        console.log('네트워크 요청 취소');
+        abort();
+      })
+    );
+
+    return fetchObservable$;
   })
 );
 
-// 이벤트D가 발생하면 동작C를 취소하고 E 동작 실행
-const actionE$ = buttonDClick$.pipe(
-  tap(() => {
-    console.log("동작C 취소, 동작E 실행");
-  })
-);
+// 네트워크 요청 완료 시 동작
+networkRequest$.subscribe({
+  next: data => console.log('네트워크 요청 완료:', data),
+  error: err => console.log('네트워크 요청 중 에러 발생:', err),
+});
 
-// Subscription
-const subscription = actionC$.subscribe();
-buttonDClick$.subscribe(() => subscription.unsubscribe());
+// 네트워크 요청 함수 (AbortController 포함)
+function fetchWithCancel(url) {
+  const controller = new AbortController();
+  const signal = controller.signal;
+
+  const fetchPromise = fetch(url, { signal }).then(response => response.json());
+
+  return { promise: fetchPromise, abort: () => controller.abort() };
+}
+
+function invokeEventD() {
+  console.log('D 동작 실행');
+}
 ```
 
-처음보는 함수들 때문에 놀라셨겠지만, 당장은 자세히 모르셔도 괜찮습니다. `Subject`는 Observable의 파생형태이며, `operator`는 절차적으로 작성되는
+처음보는 함수들 때문에 놀라셨겠지만, 당장은 자세히 모르셔도 괜찮습니다. 절차적으로 작성되는
 - 조건문
 - 반복문
 - 계산
-들을 추상화한 함수입니다. 가독성을 높이고 프로시져를 재사용한다는 느낌만 가져가도 괜찮습니다. 그것만으로도 이미 강력함을 느끼셨으리라 생각합니다.
+들을 추상화한 함수들 입니다. 가독성을 높이고 프로시져를 재사용한다는 느낌만 가져가도 괜찮습니다.
+
+이제 요구사항이 늘어나거나 변경돼도 간단히 새로운 연산자를 조합하면 끝입니다. 여러분이 직접 상태 변경을 추적하거나, 이벤트의 코드를 변경할 필요가 없습니다.
+
+그것만으로도 이미 강력함을 느끼셨으리라 생각합니다. React가 처음 나왔을 때처럼 말이죠.
+
+#### React
+- UI를 선언적으로 표현
+
+#### RxJS
+- 이벤트 흐름을 선언적으로 표현
 
 ## (2)그래, 많이 들어봤는데... React랑 어울려?
 
@@ -292,6 +371,10 @@ const MyComponent = () => {
 };
 ```
 
+뭐... 나쁘진 않습니다만, 여러 useEffect 훅과 useQuery 훅을 사용하여 폴링 로직, 오류 처리, 상태 업데이트를 관리한다는걸 빼고 말이죠.
+
+이로 인해 코드가 분산되고 관리하기 복잡해질 수 있습니다. 개발자에게 오버헤드가 생기기 쉽고, 이는 변경사항에 취약하게 만듭니다.
+
 ## Observable-Hooks 코드
 
 ```jsx
@@ -317,7 +400,7 @@ const MyComponent = () => {
     ),
   );
 
-  useSubscription(onPollingResponse$, ({ download: { downloadUrl } }) => {
+  useSubscription(onPollingResponse$, ({ downloadUrl }) => {
     if (downloadUrl) {
       downloadFile(downloadUrl);
       toast.dismiss();
@@ -340,8 +423,6 @@ const MyComponent = () => {
   );
 }
 ```
-
-일반 React 코드는 여러 useEffect 훅과 useQuery 훅을 사용하여 폴링 로직, 오류 처리, 상태 업데이트를 관리합니다. 이로 인해 코드가 분산되고 관리하기 복잡해질 수 있습니다.
 
 Observable-hook의 useObservableCallback과 switchMap을 사용하면 생성, 폴링, 오류 처리를 하나의 파이프라인에서 관리합니다. 이는 비동기 작업의 흐름을 보다 직관적이고 선언적으로 표현할 수 있게 해줍니다.
 
@@ -453,24 +534,38 @@ countdownStartTime$.pipe(
 ),
 ```
 
+이 외에도 [다양한 React 예제](https://observable-hooks.js.org/examples/)들이 있으니 따라해보시는 걸 추천드립니다.
+
 # 소서러 슈프론트:star:(?)
 
-RxJS를 왜 써야하는지 고민하던 시기가 있었습니다. 커리어에 도움이 될 것 같으면서도 한편으로 크게 와닿지 않아서, 간단히 공부하기에 그쳤었죠. 하지만 지금은 무척 즐겨 사용하는 Goto Library 중 하나가 됐습니다. 복잡한 UI를 다루면서 효용성을 많이 깨닫고 아직도 끊임없이 수련중입니다. (스트레인지까지는 아니더라도, 웡 수준만 돼도 만족할거 같습니다!)
+RxJS를 왜 배워야하는지 고민하던 시기가 있었습니다. 도움이 될 것 같으면서도 한편으로 크게 와닿지 않아서, 간단히 공부하기에 그쳤었죠. 하지만 지금은 무척 즐겨 사용하는 Goto Library 중 하나가 됐습니다. 복잡한 UI를 다루면서 효용성을 많이 깨닫고 아직도 끊임없이 수련중입니다. (스트레인지까지는 아니더라도, 웡 수준만 돼도 기쁠거 같습니다)
 
 ![training](./images/training.gif)
 
- 닥터 스트레인지도 타임스톤을 자유자재로 다루기 위해 힘든 역경을 지나왔습니다. 더딘 발전에 괴로워하며, 사랑하는 사람을 떠나보내기도 하고 :cry: 스승을 잃고 무거운 책임감을 받아드리기에 이르렀습니다. 그리고 마침내 최강의 소서러 슈프림으로 등극합니다.
+ 닥터 스트레인지도 타임스톤을 자유자재로 다루기 위해 힘든 역경을 지나왔습니다. 더딘 발전에 괴로워하며, 사랑하는 사람을 떠나보내기도 하고 :cry: 스승을 잃고 무거운 책임감을 받아드리기에 이르렀습니다. 
+ 
+그렇게 마침내 최강의 소서러 슈프림으로 등극합니다. 그리고 예로부터 소서러 슈프림은
+- 우주의 질서와 균형을 유지하며
+- 우주의 모든 존재를 외부 위협으로부터 지켜왔습니다.
 
-소서러 슈프림은 예로부터 
-- 우주의 질서와 균형을 유지합니다.
-- 우주의 모든 존재를 외부 위협으로부터 지킵니다.
+### 아름답고 취약한 프론트엔드
 
-프론트엔드 개발자 또한
+작은 기능 추가로 수많은 코드가 바뀔 수 있습니다. 그 안에는 UI 컴포넌트, 비동기 로직, 계산, 퍼포먼스 등 다양한 고려사항이 내포되어 있습니다. 
+
+"작은 변경이니까 금방 끝나요"
+
+이보다 확실한 야근 플래그가 있을까요?
+
+![futures](./images/futures.gif)
+
+수많은 가능성을 고려하고 검증해야 하는 프론트엔드 개발자!
 - 코드의 질서와 균형을 유지하며
 - 수많은 이벤트와 데이터, 타이밍의 위협으로부터 프로젝트를 지켜야합니다.
 
 ### RxJS: 성장의 경계를 무너뜨릴 신기
 
-오늘도 성장에 목마른 프론트 개발자분들께 [RxJS](https://rxjs.dev/)를, 나아가 React 개발자에게는 [Observable-Hooks](https://observable-hooks.js.org/)까지 적극 권하며 이만 마치겠습니다. 
+프로젝트가 성장하면 관리 지점도 늘어납니다. 뿌듯함과 동시에 부담도 배가 되죠. 때에 따라 극한의 상황을 마주칠 수 있습니다. 물론 준비된 개발자라면 커리어를 한단계 도약시킬 기회로 삼을 수도 있겠죠.
+
+오늘도 성장에 목마른 프론트 개발자분들께 [RxJS](https://rxjs.dev/)를, 나아가 React 개발자에게는 [Observable-Hooks](https://observable-hooks.js.org/)까지 적극 권장하며 이만 줄이겠습니다. 
 
 피드백은 언제나 환영입니다, Adios!
