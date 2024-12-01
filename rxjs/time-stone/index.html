@@ -271,7 +271,9 @@ document<span class="token punctuation">.</span><span class="token function">get
 
 <span class="token comment">// C 이벤트로 네트워크 요청 취소 시그널 생성</span>
 <span class="token keyword">const</span> cancel$ <span class="token operator">=</span> cEvent$<span class="token punctuation">.</span><span class="token function">pipe</span><span class="token punctuation">(</span>
-  <span class="token function">tap</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'C 이벤트 발생, 취소 시그널 전달'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+  <span class="token function">tap</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'C 이벤트 발생, 취소 시그널 전달'</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
   <span class="token function">shareReplay</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token comment">// 여러 구독에서 재사용 가능하도록 공유</span>
 <span class="token punctuation">)</span><span class="token punctuation">;</span>
 
@@ -297,6 +299,11 @@ document<span class="token punctuation">.</span><span class="token function">get
 networkRequest$<span class="token punctuation">.</span><span class="token function">subscribe</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
   <span class="token function-variable function">next</span><span class="token operator">:</span> <span class="token parameter">data</span> <span class="token operator">=></span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'네트워크 요청 완료:'</span><span class="token punctuation">,</span> data<span class="token punctuation">)</span><span class="token punctuation">,</span>
   <span class="token function-variable function">error</span><span class="token operator">:</span> <span class="token parameter">err</span> <span class="token operator">=></span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'네트워크 요청 중 에러 발생:'</span><span class="token punctuation">,</span> err<span class="token punctuation">)</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 취소 이벤트 발생 시 D 동작 실행</span>
+cancel$<span class="token punctuation">.</span><span class="token function">subscribe</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token function">invokeEventD</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
 <span class="token comment">// 네트워크 요청 함수 (AbortController 포함)</span>
