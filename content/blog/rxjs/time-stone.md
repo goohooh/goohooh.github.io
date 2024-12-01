@@ -173,7 +173,9 @@ const trigger$ = combineLatest([aCount$, bEvent$]).pipe(
 
 // C 이벤트로 네트워크 요청 취소 시그널 생성
 const cancel$ = cEvent$.pipe(
-  tap(() => console.log('C 이벤트 발생, 취소 시그널 전달')),
+  tap(() => {
+    console.log('C 이벤트 발생, 취소 시그널 전달')
+    }),
   shareReplay(1) // 여러 구독에서 재사용 가능하도록 공유
 );
 
@@ -199,6 +201,11 @@ const networkRequest$ = trigger$.pipe(
 networkRequest$.subscribe({
   next: data => console.log('네트워크 요청 완료:', data),
   error: err => console.log('네트워크 요청 중 에러 발생:', err),
+});
+
+// 취소 이벤트 발생 시 D 동작 실행
+cancel$.subscribe(() => {
+  invokeEventD();
 });
 
 // 네트워크 요청 함수 (AbortController 포함)
